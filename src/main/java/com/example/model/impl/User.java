@@ -1,15 +1,12 @@
-package com.example.model;
+package com.example.model.impl;
 
-public class User {
+import com.example.model.Model;
+
+public class User implements Model, Comparable<User> {
     private int id;
     private String name;
 
     public User() {
-    }
-
-    public User(int id, String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public int getId() {
@@ -34,5 +31,10 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return name.compareTo(o.getName());
     }
 }
