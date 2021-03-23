@@ -8,58 +8,60 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class DataBaseConnection {
+public class DataBaseConnection implements AutoCloseable {
 
-    private static DataBaseConnection instance;
-    private static Connection connection;
+    private static volatile DataBaseConnection instance;
 
-    private final String url;
-    private final String userName;
-    private final String password;
+    private final Connection connection;
 
-
-    private DataBaseConnection() {
-        url = getFileProperties().getProperty("db.url");
-        userName = getFileProperties().getProperty("db.userName");
-        password = getFileProperties().getProperty("db.password");
+    private DataBaseConnection() throws IOException, SQLException {
+        this.connection = createConnection();
     }
 
-    private Properties getFileProperties() {
-        Properties properties = new Properties();
-        File file = new File("src/main/resources/config.properties");
-        try {
-            properties.load(new FileReader(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return properties;
-    }
-
-    public static Connection getConnection() {
-        if (instance == null) {
-            instance = new DataBaseConnection();
-            try {
-                connection = DriverManager.getConnection(instance.getUrl(), instance.getUserName(), instance.getPassword());
-            } catch (SQLException throwable) {
-                throwable.printStackTrace();
-            }
-        } else {
-            System.out.println("Connection created already");
-        }
+    public Connection getConnection() {
         return connection;
     }
 
-    public String getUrl() {
-        return url;
+    @Override
+    public void close() throws SQLException {
+        if (connection != null) {
+            connection.close();
+        }
     }
 
-    public String getUserName() {
-        return userName;
+    private static Properties getFileProperties() throws IOException {
+        final Properties properties = new Properties();
+        final File file = new File("src/main/resources/config.properties");
+
+        try (final FileReader fileReader = new FileReader(file)) {
+            properties.load(fileReader);
+            return properties;
+        }
     }
 
-    public String getPassword() {
-        return password;
+    private static Connection createConnection() throws SQLException, IOException {
+        final Properties properties = getFileProperties();
+        final String url = properties.getProperty("db.url");
+        final String username = properties.getProperty("db.userName");
+        final String password = properties.getProperty("db.password");
+
+        return DriverManager.getConnection(url, username, password);
     }
+
+    public static DataBaseConnection getInstance() throws IOException, SQLException {
+        if (instance != null) {
+            return instance;
+        }
+
+        synchronized (DataBaseConnection.class) {
+            if (instance == null) {
+                instance = new DataBaseConnection();
+            }
+
+            return instance;
+        }
+    }
+
 }
 
 

@@ -1,21 +1,25 @@
 package com.example;
 
+import com.example.config.DataBaseConnection;
+import com.example.dao.Dao;
 import com.example.dao.impl.UserDao;
-import com.example.model.Model;
+import com.example.model.impl.User;
 
-import java.util.List;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class App {
-    public static void main(String[] args) {
 
-        List<Model> list;
-        UserDao dao = new UserDao();
+    public static void main(final String[] args) {
+        try (final DataBaseConnection connection = DataBaseConnection.getInstance()) {
 
-        list = dao.getAll();
-        list.forEach(System.out::println);
-        System.out.println();
+            final Dao<User> dao = new UserDao(connection.getConnection());
+            dao.getAll().forEach(System.out::println);
+            dao.sortingByName().forEach(System.out::println);
 
-        list = dao.sortingByName();
-        list.forEach(System.out::println);
+        } catch (final IOException | SQLException ex) {
+            ex.printStackTrace();
+        }
     }
+
 }

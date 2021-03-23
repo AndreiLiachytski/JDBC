@@ -2,11 +2,13 @@ package com.example.dao;
 
 import com.example.model.Model;
 
+import java.sql.SQLException;
 import java.util.List;
 
-public interface Dao {
-    List<Model> getAll();
+public interface Dao<T extends Model> {
 
-    List<Model> sortingByName();
+    List<T> getAll() throws SQLException;
+
+    List<T> sortingByName() throws SQLException;
 
 }
