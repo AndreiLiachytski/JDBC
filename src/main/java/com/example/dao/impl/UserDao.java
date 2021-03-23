@@ -1,6 +1,6 @@
 package com.example.dao.impl;
 
-import com.example.config.DataBaseConfig;
+import com.example.config.DataBaseConnection;
 import com.example.dao.Dao;
 import com.example.model.Model;
 import com.example.model.impl.User;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class UserDao implements Dao {
 
-    private final Connection connection = DataBaseConfig.getConnection();
+    private final Connection connection = DataBaseConnection.getConnection();
 
     public List<Model> getAll() {
         List<Model> users = new ArrayList<>();
@@ -37,6 +37,5 @@ public class UserDao implements Dao {
     public List<Model> sortingByName() {
         return getAll().stream().sorted().collect(Collectors.toList());
     }
-
 
 }
