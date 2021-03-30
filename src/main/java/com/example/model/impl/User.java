@@ -5,24 +5,41 @@ import com.example.model.Model;
 public class User implements Model, Comparable<User> {
     private int id;
     private String name;
+    private String email;
 
     public User() {
     }
 
-    public int getId() {
-        return id;
+    private User(final UserBuilder builder) {
+        this();
+        id = builder.id;
+        name = builder.name;
+        email = builder.email;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public static class UserBuilder {
+        private int id = 0;
+        private String name = null;
+        private String email = null;
 
-    public String getName() {
-        return name;
-    }
+        public UserBuilder assignId(final int value) {
+            id = value;
+            return this;
+        }
 
-    public void setName(String name) {
-        this.name = name;
+        public UserBuilder assignName(final String value) {
+            name = value;
+            return this;
+        }
+
+        public UserBuilder assignEmail(final String value) {
+            email = value;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
     }
 
     @Override
@@ -30,11 +47,16 @@ public class User implements Model, Comparable<User> {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 
     @Override
-    public int compareTo(User o) {
-        return name.compareTo(o.getName());
+    public int compareTo(final User user) {
+        if (name != null) {
+            return name.compareTo(user.name);
+        }
+        return 1;
     }
 }
+

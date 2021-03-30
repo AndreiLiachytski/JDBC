@@ -1,6 +1,7 @@
-package com.example.dao.impl;
+package com.example.dao.daoImpl;
 
 import com.example.dao.Dao;
+import com.example.model.Model;
 import com.example.model.impl.User;
 
 import java.sql.Connection;
@@ -11,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserDao implements Dao<User> {
-
+public class UserDao implements Dao {
     private final Connection connection;
 
     public UserDao(final Connection connection) {
@@ -20,28 +20,28 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public List<User> getAll() throws SQLException {
+    public List<Model> getAll() throws SQLException {
         try (final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Users")) {
-            final ResultSet resultSet = preparedStatement.executeQuery();
 
-            final List<User> users = new ArrayList<>(resultSet.getFetchSize());
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            final List<Model> models = new ArrayList<>(resultSet.getFetchSize());
 
             while (resultSet.next()) {
-                final User user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setName(resultSet.getString("name"));
-                users.add(user);
+                final Model user = new User.UserBuilder()
+                        .assignId(resultSet.getInt("id"))
+                        .assignName(resultSet.getString("name"))
+                        .assignEmail(resultSet.getString("email"))
+                        .build();
+                models.add(user);
             }
-
-            return users;
+            return models;
         }
     }
 
     @Override
-    public List<User> sortingByName() throws SQLException {
+    public List<Model> sortingByName() throws SQLException {
         return getAll().stream()
                 .sorted()
                 .collect(Collectors.toList());
     }
-
 }

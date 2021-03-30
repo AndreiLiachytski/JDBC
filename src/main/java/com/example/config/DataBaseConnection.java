@@ -49,19 +49,15 @@ public class DataBaseConnection implements AutoCloseable {
     }
 
     public static DataBaseConnection getInstance() throws IOException, SQLException {
-        if (instance != null) {
-            return instance;
-        }
-
-        synchronized (DataBaseConnection.class) {
-            if (instance == null) {
-                instance = new DataBaseConnection();
+        if (instance == null) {
+            synchronized (DataBaseConnection.class) {
+                if (instance == null) {
+                    instance = new DataBaseConnection();
+                }
             }
-
-            return instance;
         }
+        return instance;
     }
-
 }
 
 
