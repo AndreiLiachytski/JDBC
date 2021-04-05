@@ -31,7 +31,8 @@ public class DataBaseConnection implements AutoCloseable {
 
     private static Properties getFileProperties() throws IOException {
         final Properties properties = new Properties();
-        final File file = new File("src/main/resources/config.properties");
+      //  final File file = new File("src/main/resources/config.properties");
+        final File file = new File("H:/Projekts/JDBS/src/main/resources/config.properties");
 
         try (final FileReader fileReader = new FileReader(file)) {
             properties.load(fileReader);
