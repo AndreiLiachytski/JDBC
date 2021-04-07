@@ -4,8 +4,8 @@ import com.example.config.DataBaseConnection;
 import com.example.dao.Dao;
 import com.example.factory.impl.DaoFactory;
 import com.example.model.impl.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,26 +15,23 @@ import java.sql.SQLException;
 
 public class FirstServlet extends HttpServlet {
     @Override
-    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-    }
-
-    @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         final PrintWriter pw = response.getWriter();
-        DataBaseConnection connection = null;
+        final DataBaseConnection connection;
+
         try {
             connection = DataBaseConnection.getInstance();
-        } catch (final SQLException throwable) {
-            throwable.printStackTrace();
-        }
-        try {
             assert connection != null;
             final DaoFactory daoFactory = new DaoFactory(connection.getConnection());
             final Dao userDao = daoFactory.createDao(User.class);
-
-            userDao.getAll().forEach(pw::println);
-            userDao.sortingByName().forEach(pw::println);
-
+            final ObjectMapper objectMapper = new ObjectMapper();
+            userDao.getAll().forEach(value -> {
+                try {
+                    pw.println(objectMapper.writeValueAsString(value));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (final SQLException | IllegalAccessException | InstantiationException | NoSuchMethodException ex) {
             ex.printStackTrace();
         }
