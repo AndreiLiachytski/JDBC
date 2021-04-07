@@ -2,7 +2,7 @@
 .idea/
 *.iml
 *.iws
-
+*.jsp
 # Maven
 log/
 target/

@@ -1,10 +1,14 @@
 package com.example.model.impl;
 
 import com.example.model.Model;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User implements Model, Comparable<User> {
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("Name")
     private String name;
+    @JsonProperty("E-mail")
     private String email;
 
     public User() {
