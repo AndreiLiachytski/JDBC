@@ -1,13 +1,20 @@
 package com.example.model.impl;
 
 import com.example.model.Model;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-public class Car implements Model, Comparable<Car> {
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@JsonAutoDetect
+public class Car extends Model implements Comparable<Car> {
+
     private int id;
     private String name;
     private int power;
 
-    private Car() {
+    public Car() {
     }
 
     private Car(final CarBuilder builder) {
@@ -41,13 +48,17 @@ public class Car implements Model, Comparable<Car> {
             return new Car(this);
         }
     }
-
-    @Override
-    public int compareTo(final Car obj) {
-        if (name != null) {
-            return name.compareTo(obj.name);
-        }
-        return 1;
+    @XmlElement(name = "id")
+    public int getId() {
+        return id;
+    }
+    @XmlElement(name = "name")
+    public String getName() {
+        return name;
+    }
+    @XmlElement(name = "power")
+    public int getPower() {
+        return power;
     }
 
     @Override
@@ -57,5 +68,13 @@ public class Car implements Model, Comparable<Car> {
                 ", name='" + name + '\'' +
                 ", power=" + power +
                 '}';
+    }
+
+    @Override
+    public int compareTo(final Car obj) {
+        if (name != null) {
+            return name.compareTo(obj.name);
+        }
+        return 1;
     }
 }
