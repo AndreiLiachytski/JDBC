@@ -1,14 +1,14 @@
 package com.example.dao;
 
-import com.example.model.Model;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface Dao {
+public interface Dao<T> {
 
-    List<Model> getAll() throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException;
+    List<T> getAll() throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, JsonProcessingException;
 
-    List<Model> sortingByName() throws SQLException;
+    List<T> getAllSortedByName() throws SQLException;
 
 }

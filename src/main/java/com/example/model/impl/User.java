@@ -1,14 +1,18 @@
 package com.example.model.impl;
 
 import com.example.model.Model;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.Data;
 
-public class User implements Model, Comparable<User> {
-    @JsonProperty("id")
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@JsonAutoDetect
+public class User extends Model implements Comparable<User> {
+
     private int id;
-    @JsonProperty("Name")
     private String name;
-    @JsonProperty("E-mail")
     private String email;
 
     public User() {
@@ -46,6 +50,21 @@ public class User implements Model, Comparable<User> {
         }
     }
 
+    @XmlElement(name = "id")
+    public int getId() {
+        return id;
+    }
+
+    @XmlElement(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    @XmlElement(name = "E-mail")
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -63,4 +82,3 @@ public class User implements Model, Comparable<User> {
         return 1;
     }
 }
-

@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.configs;
 
 import java.io.File;
 import java.io.FileReader;
