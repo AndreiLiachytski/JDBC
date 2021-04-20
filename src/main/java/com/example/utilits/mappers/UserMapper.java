@@ -1,12 +1,12 @@
 package com.example.utilits.mappers;
 
+import com.example.commonInterfaces.MyFunction;
 import com.example.model.impl.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.function.Function;
 
-public class UserMapper implements Function<ResultSet, User> {
+public class UserMapper implements MyFunction<ResultSet, User> {
 
     private UserMapper() {
     }
@@ -16,17 +16,11 @@ public class UserMapper implements Function<ResultSet, User> {
     }
 
     @Override
-    public User apply(final ResultSet resultSet) {
-        User user = null;
-        try {
-            user = new User.UserBuilder()
-                    .assignId(resultSet.getInt("id"))
-                    .assignName(resultSet.getString("name"))
-                    .assignEmail(resultSet.getString("email"))
-                    .build();
-        } catch (final SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return user;
+    public User apply(final ResultSet resultSet) throws SQLException {
+        return new User.UserBuilder()
+                .assignId(resultSet.getInt("id"))
+                .assignName(resultSet.getString("name"))
+                .assignEmail(resultSet.getString("email"))
+                .build();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.utilits.convertors;
+package com.example.utilits.convertors.XML;
 
 import com.example.model.Model;
 

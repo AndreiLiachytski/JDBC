@@ -10,11 +10,9 @@ import java.util.Properties;
 
 public class DataBaseConnection implements AutoCloseable {
 
-    private static volatile DataBaseConnection instance;
-
     private final Connection connection;
 
-    private DataBaseConnection() throws IOException, SQLException {
+    public DataBaseConnection() throws IOException, SQLException {
         this.connection = createConnection();
     }
 
@@ -22,16 +20,8 @@ public class DataBaseConnection implements AutoCloseable {
         return connection;
     }
 
-    @Override
-    public void close() throws SQLException {
-        if (connection != null) {
-            connection.close();
-        }
-    }
-
     private static Properties getFileProperties() throws IOException {
         final Properties properties = new Properties();
-       // final File file = new File("src/main/resources/config.properties");
         final File file = new File("H:/Projekts/JDBS/src/main/resources/config.properties");
 
         try (final FileReader fileReader = new FileReader(file)) {
@@ -49,19 +39,10 @@ public class DataBaseConnection implements AutoCloseable {
         return DriverManager.getConnection(url, username, password);
     }
 
-    public static DataBaseConnection getInstance() throws IOException, SQLException {
-        if (instance == null) {
-            synchronized (DataBaseConnection.class) {
-                if (instance == null) {
-                    instance = new DataBaseConnection();
-                }
-            }
+    @Override
+    public void close() throws SQLException {
+        if (connection != null) {
+            connection.close();
         }
-        return instance;
     }
 }
-
-
-
-
-
