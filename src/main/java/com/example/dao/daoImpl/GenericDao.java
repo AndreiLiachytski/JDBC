@@ -1,5 +1,6 @@
 package com.example.dao.daoImpl;
 
+import com.example.commonInterfaces.MyFunction;
 import com.example.dao.Dao;
 
 import java.sql.Connection;
@@ -8,16 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class GenericDao<T> implements Dao<T> {
 
     private final Connection connection;
     private final String sql;
-    private final Function<ResultSet, T> mapper;
+    private final MyFunction<ResultSet, T> mapper;
 
-    public GenericDao(final Connection connection, final String tableName, final Function<ResultSet, T> mapper) {
+    public GenericDao(final Connection connection, final String tableName, final MyFunction<ResultSet, T> mapper) {
         this.connection = connection;
         this.sql = "SELECT * FROM " + tableName;
         this.mapper = mapper;
