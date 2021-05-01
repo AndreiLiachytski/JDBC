@@ -1,4 +1,4 @@
-package com.chitts.utilits.mappers;
+package com.chitts.mappers;
 
 import java.sql.SQLException;
 

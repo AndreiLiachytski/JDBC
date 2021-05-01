@@ -3,11 +3,10 @@ package com.chitts.servlets;
 import com.chitts.configs.DataBaseConnection;
 import com.chitts.dao.Dao;
 import com.chitts.dao.impl.GenericDao;
-import com.chitts.exceptions.ClassConverterException;
-import com.chitts.exceptions.TypeConverterException;
+import com.chitts.exceptions.AppException;
 import com.chitts.model.impl.User;
-import com.chitts.utilits.converters.ConverterAggregator;
-import com.chitts.utilits.mappers.impl.UserMapper;
+import com.chitts.converters.ConverterAggregator;
+import com.chitts.mappers.impl.UserMapper;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +32,7 @@ public class XmlServlet extends HttpServlet {
             writer.println(userConverter.convertTo("Xml", users.get(0), User.class));
             writer.close();
 
-        } catch (final IOException | SQLException | JAXBException | ClassConverterException | TypeConverterException ex) {
+        } catch (final IOException | SQLException | JAXBException | AppException ex) {
             ex.printStackTrace();
         }
     }

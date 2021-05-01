@@ -1,7 +1,7 @@
-package com.chitts.utilits.mappers.impl;
+package com.chitts.mappers.impl;
 
 import com.chitts.model.impl.User;
-import com.chitts.utilits.mappers.Mapper;
+import com.chitts.mappers.Mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
