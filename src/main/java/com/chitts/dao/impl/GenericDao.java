@@ -2,7 +2,7 @@ package com.chitts.dao.impl;
 
 import com.chitts.dao.Dao;
 import com.chitts.model.Model;
-import com.chitts.utilits.mappers.Mapper;
+import com.chitts.mappers.Mapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
