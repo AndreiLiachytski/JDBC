@@ -10,11 +10,12 @@ import java.util.List;
 public class UserConverterToJson implements Converter<User, String> {
 
     private JSONObject getJsonObject(final User user) {
-
         final JSONObject jsonObject = new JSONObject();
+
         jsonObject.put("id", user.getId());
         jsonObject.put("name", user.getName());
         jsonObject.put("email", user.getEmail());
+
         return jsonObject;
     }
 

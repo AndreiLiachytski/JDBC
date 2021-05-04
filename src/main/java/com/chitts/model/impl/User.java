@@ -10,18 +10,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonAutoDetect
 public class User extends Model implements Comparable<User> {
 
-    private int id;
-    private String name;
-    private String email;
+    private final int id;
+    private final String name;
+    private final String email;
 
     public User() {
-    }
-
-    private User(final UserBuilder builder) {
-        this();
-        id = builder.id;
-        name = builder.name;
-        email = builder.email;
+        this.id = 0;
+        this.name = null;
+        this.email = null;
     }
 
     @XmlElement(name = "id")
@@ -37,31 +33,6 @@ public class User extends Model implements Comparable<User> {
     @XmlElement(name = "E-mail")
     public String getEmail() {
         return email;
-    }
-
-    public static class UserBuilder {
-        private int id = 0;
-        private String name = null;
-        private String email = null;
-
-        public UserBuilder assignId(final int value) {
-            id = value;
-            return this;
-        }
-
-        public UserBuilder assignName(final String value) {
-            name = value;
-            return this;
-        }
-
-        public UserBuilder assignEmail(final String value) {
-            email = value;
-            return this;
-        }
-
-        public User build() {
-            return new User(this);
-        }
     }
 
     @Override

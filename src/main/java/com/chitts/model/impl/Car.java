@@ -10,18 +10,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonAutoDetect
 public class Car extends Model implements Comparable<Car> {
 
-    private int id;
-    private String name;
-    private int power;
+    private final int id;
+    private final String name;
+    private final int power;
 
     public Car() {
-    }
-
-    private Car(final CarBuilder builder) {
-        this();
-        id = builder.id;
-        name = builder.name;
-        power = builder.power;
+        this.id = 0;
+        this.name = null;
+        this.power = 0;
     }
 
     @XmlElement(name = "id")
@@ -37,31 +33,6 @@ public class Car extends Model implements Comparable<Car> {
     @XmlElement(name = "power")
     public int getPower() {
         return power;
-    }
-
-    public static class CarBuilder {
-        private int id = 0;
-        private String name = null;
-        private int power = 0;
-
-        public CarBuilder assignId(final int value) {
-            id = value;
-            return this;
-        }
-
-        public CarBuilder assignName(final String value) {
-            name = value;
-            return this;
-        }
-
-        public CarBuilder assignPower(final int value) {
-            power = value;
-            return this;
-        }
-
-        public Car build() {
-            return new Car(this);
-        }
     }
 
     @Override
