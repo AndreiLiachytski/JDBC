@@ -8,3 +8,4 @@ log/
 target/
 /out/
 /lib/
+/src/main/resources/liquibase.properties

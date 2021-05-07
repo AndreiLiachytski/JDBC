@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class GenericConverterToJson<T extends Model> implements GenericConverter<T, String> {
 
-    private final Map<Class<?>, Converter<T, String>> convertersToJson = new HashMap<>();
+    private final Map<Class<? extends Model>, Converter<T, String>> convertersToJson = new HashMap<>();
 
     {
         convertersToJson.put(User.class, (Converter<T, String>) new UserConverterToJson());
